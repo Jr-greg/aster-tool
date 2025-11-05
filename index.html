@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aster Token Analyzer - 专业代币分析工具</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="min-h-screen">
+  <div class="bg-decoration"></div>
+  
+  <!-- 顶部导航栏 -->
+  <header class="header-glass">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-section">
+          <svg class="logo" width="40" height="40" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="m6.082 17.122.42-1.942a3.476 3.476 0 0 0-3.397-4.212H1.18a9.02 9.02 0 0 0 4.902 6.154" fill="url(#a)"/>
+            <path d="M6.927 17.475c.949.34 1.971.525 3.037.525 4.294 0 7.886-3.008 8.784-7.032h-5.875a5.625 5.625 0 0 0-5.498 4.435z" fill="url(#b)"/>
+            <path d="M18.9 10.068q.064-.525.064-1.069a9 9 0 0 0-8.26-8.97L9.441 5.855a3.476 3.476 0 0 0 3.398 4.212z" fill="url(#c)"/>
+            <path d="M9.789 0a9 9 0 0 0-8.763 10.068h2.046a5.625 5.625 0 0 0 5.497-4.435z" fill="url(#d)"/>
+            <defs>
+              <linearGradient id="a" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+              <linearGradient id="b" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+              <linearGradient id="c" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+              <linearGradient id="d" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="logo-text">
+            <h1 class="logo-title">Aster Token Analyzer</h1>
+            <p class="logo-subtitle">多链代币查询与分析系统</p>
+          </div>
+        </div>
+        <button class="settings-button" id="settingsButton" aria-label="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <!-- 设置模态框 -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Token Query</h2>
+        <button class="modal-close" id="closeModal" aria-label="Close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      
+      <form class="modal-form" id="queryForm">
+        <div class="form-group">
+          <label for="blockchain" class="form-label">区块链网络</label>
+          <select id="blockchain" class="form-select">
+            <option value="bnb" selected>BNB Chain</option>
+            <option value="ethereum">Ethereum</option>
+            <option value="polygon">Polygon</option>
+            <option value="arbitrum">Arbitrum</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="walletAddress" class="form-label">钱包地址</label>
+          <input 
+            type="text" 
+            id="walletAddress" 
+            class="form-input"
+            value="0x02DCd5b2DdE0F6edb4B797DA468fBc52F23f49Dc"
+            placeholder="输入钱包地址"
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="contractAddress" class="form-label">合约地址</label>
+          <input 
+            type="text" 
+            id="contractAddress" 
+            class="form-input"
+            value="0x000Ae314E2A2172a039B26378814C252734f556A"
+            placeholder="输入合约地址"
+          />
+        </div>
+        
+        <button type="submit" class="query-button">
+          <span class="button-text">Query</span>
+        </button>
+      </form>
+      
+      <!-- 进度条 -->
+      <div class="progress-container" id="progressContainer" style="display: none;">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text">正在查询数据...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主内容区域 -->
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- 核心数据看板 -->
+      <section class="hero-section">
+        <div class="hero-card">
+          <div class="hero-header">
+            <div class="token-info">
+              <div class="token-name-wrapper">
+                <h2 class="token-name">Aster</h2>
+                <span class="token-divider">/</span>
+                <span class="token-symbol">ASTER</span>
+              </div>
+              <span class="network-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  <path d="M2 12h20"/>
+                </svg>
+                BNB Chain
+              </span>
+            </div>
+            <div class="header-actions">
+              <div class="token-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Decimals</span>
+                  <span class="meta-value">18</span>
+                </div>
+                <div class="meta-divider"></div>
+                <div class="meta-item">
+                  <span class="meta-label">Contract</span>
+                  <a href="https://bscscan.com/token/0x000Ae314E2A2172a039B26378814C252734f556A" 
+                     target="_blank" 
+                     rel="noopener noreferrer" 
+                     class="contract-link">
+                    0x000A...556A
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                      <polyline points="15 3 21 3 21 9"/>
+                      <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hero-stats">
+            <div class="stat-card stat-primary">
+              <div class="stat-card-bg"></div>
+              <div class="stat-card-content">
+                <div class="stat-header">
+                  <div class="stat-header-left">
+                    <div class="stat-icon-wrapper">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                      </svg>
+                    </div>
+                    <span class="stat-label">当前价格</span>
+                  </div>
+                  <span class="stat-timeframe">24h</span>
+                </div>
+                <div class="stat-footer">
+                  <div class="stat-value-large">$0.997500</div>
+                  <div class="stat-change positive">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="18 15 12 9 6 15"/>
+                    </svg>
+                    <span>+8.83%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-card-bg"></div>
+              <div class="stat-card-content">
+                <div class="stat-header">
+                  <div class="stat-header-left">
+                    <div class="stat-icon-wrapper">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                      </svg>
+                    </div>
+                    <span class="stat-label">持有余额</span>
+                  </div>
+                  <span class="stat-unit">ASTER</span>
+                </div>
+                <div class="stat-value">100,000,006</div>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-card-bg"></div>
+              <div class="stat-card-content">
+                <div class="stat-header">
+                  <div class="stat-header-left">
+                    <div class="stat-icon-wrapper">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                      </svg>
+                    </div>
+                    <span class="stat-label">持仓估值</span>
+                  </div>
+                  <span class="stat-unit">USD</span>
+                </div>
+                <div class="stat-value">$99,750,006</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 价格图表 -->
+      <section class="chart-section">
+        <div class="section-header">
+          <h3 class="section-title">价格走势</h3>
+        </div>
+        <div class="chart-card">
+          <div class="chart-placeholder">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+              <polyline points="3 17 9 11 13 15 21 7"/>
+              <polyline points="14 7 21 7 21 14"/>
+            </svg>
+            <p class="chart-placeholder-text">图表数据</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最近交易 -->
+      <section class="history-section">
+        <div class="section-header">
+          <h3 class="section-title">最近交易</h3>
+        </div>
+        <div class="table-card">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>时间</th>
+                  <th>类型</th>
+                  <th>数量</th>
+                  <th>交易哈希</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="time-cell">Oct 30, 04:39</span></td>
+                  <td><span class="type-badge type-receive">Receive</span></td>
+                  <td><span class="amount-cell">1.8523 <span class="token-unit">ASTER</span></span></td>
+                  <td>
+                    <a href="https://bscscan.com/tx/0x95052080...e5a129ba" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="tx-link">
+                      0x95052080...e5a129ba
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="time-cell">Oct 30, 01:53</span></td>
+                  <td><span class="type-badge type-send">Send</span></td>
+                  <td><span class="amount-cell">3.3300 <span class="token-unit">ASTER</span></span></td>
+                  <td>
+                    <a href="https://bscscan.com/tx/0xa84888c3...e6a52862" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="tx-link">
+                      0xa84888c3...e6a52862
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="time-cell">Oct 11, 04:02</span></td>
+                  <td><span class="type-badge type-receive">Receive</span></td>
+                  <td><span class="amount-cell">25000000.4447 <span class="token-unit">ASTER</span></span></td>
+                  <td>
+                    <a href="https://bscscan.com/tx/0x81ed7ae4...72ed4ac1" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="tx-link">
+                      0x81ed7ae4...72ed4ac1
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="time-cell">Oct 11, 02:20</span></td>
+                  <td><span class="type-badge type-receive">Receive</span></td>
+                  <td><span class="amount-cell">25000000.4438 <span class="token-unit">ASTER</span></span></td>
+                  <td>
+                    <a href="https://bscscan.com/tx/0x2c5621e8...a9f3549a" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="tx-link">
+                      0x2c5621e8...a9f3549a
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="time-cell">Oct 11, 02:04</span></td>
+                  <td><span class="type-badge type-send">Send</span></td>
+                  <td><span class="amount-cell">24999999.9940 <span class="token-unit">ASTER</span></span></td>
+                  <td>
+                    <a href="https://bscscan.com/tx/0x2b931ccf...abcded4b" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="tx-link">
+                      0x2b931ccf...abcded4b
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="time-cell">Oct 11, 01:30</span></td>
+                  <td><span class="type-badge type-receive">Receive</span></td>
+                  <td><span class="amount-cell">24999999.9437 <span class="token-unit">ASTER</span></span></td>
+                  <td>
+                    <a href="https://bscscan.com/tx/0x08decac5...c3a2f19a" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="tx-link">
+                      0x08decac5...c3a2f19a
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <svg width="32" height="32" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="m6.082 17.122.42-1.942a3.476 3.476 0 0 0-3.397-4.212H1.18a9.02 9.02 0 0 0 4.902 6.154" fill="url(#fa)"/>
+            <path d="M6.927 17.475c.949.34 1.971.525 3.037.525 4.294 0 7.886-3.008 8.784-7.032h-5.875a5.625 5.625 0 0 0-5.498 4.435z" fill="url(#fb)"/>
+            <path d="M18.9 10.068q.064-.525.064-1.069a9 9 0 0 0-8.26-8.97L9.441 5.855a3.476 3.476 0 0 0 3.398 4.212z" fill="url(#fc)"/>
+            <path d="M9.789 0a9 9 0 0 0-8.763 10.068h2.046a5.625 5.625 0 0 0 5.497-4.435z" fill="url(#fd)"/>
+            <defs>
+              <linearGradient id="fa" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+              <linearGradient id="fb" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+              <linearGradient id="fc" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+              <linearGradient id="fd" x1="11.58" x2="8.024" y1="0" y2="18.024" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#efbe84"/>
+                <stop offset="1" stop-color="#eaae67"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="footer-text">
+            <p class="footer-title">Aster Token Analyzer</p>
+            <p class="footer-subtitle">Powered by Aster Protocol</p>
+          </div>
+        </div>
+        <div class="footer-info">
+          <p class="footer-description">多链代币查询与分析系统</p>
+          <p class="footer-copyright">© 2025 Aster. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+</div>
+
+<script>
+// 获取元素
+const settingsButton = document.getElementById('settingsButton');
+const settingsModal = document.getElementById('settingsModal');
+const closeModal = document.getElementById('closeModal');
+const queryForm = document.getElementById('queryForm');
+const progressContainer = document.getElementById('progressContainer');
+const progressFill = document.getElementById('progressFill');
+
+// 打开模态框
+settingsButton.addEventListener('click', () => {
+  settingsModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+});
+
+// 关闭模态框
+function closeModalFunc() {
+  settingsModal.classList.remove('active');
+  document.body.style.overflow = '';
+  progressContainer.style.display = 'none';
+  progressFill.style.width = '0%';
+  queryForm.style.display = 'block';
+}
+
+closeModal.addEventListener('click', closeModalFunc);
+
+// 点击背景关闭
+settingsModal.addEventListener('click', (e) => {
+  if (e.target === settingsModal) {
+    closeModalFunc();
+  }
+});
+
+// ESC 键关闭
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && settingsModal.classList.contains('active')) {
+    closeModalFunc();
+  }
+});
+
+// 表单提交
+queryForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  // 隐藏表单，显示进度条
+  queryForm.style.display = 'none';
+  progressContainer.style.display = 'block';
+  
+  // 模拟进度（3秒）
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 2;
+    progressFill.style.width = progress + '%';
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      // 延迟关闭
+      setTimeout(() => {
+        closeModalFunc();
+      }, 500);
+    }
+  }, 60); // 3000ms / 50步 = 60ms per step
+});
+</script>
+</body>
+</html>
+
