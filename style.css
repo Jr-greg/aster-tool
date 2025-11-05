@@ -441,14 +441,6 @@ body {
   .hero-stats .stat-card:first-child {
     grid-column: auto;
   }
-  
-  .stat-card:not(.stat-primary) .stat-card-content {
-    justify-content: space-between;
-  }
-  
-  .stat-card:not(.stat-primary) .stat-value {
-    margin-top: auto;
-  }
 }
 
 .stat-card {
@@ -531,6 +523,14 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.stat-card:not(.stat-primary) .stat-card-content {
+  justify-content: space-between;
+}
+
+.stat-card:not(.stat-primary) .stat-value {
+  margin-top: auto;
 }
 
 .stat-header {
